@@ -184,7 +184,7 @@ public class BankAccount {
             return false;
         }
 
-        if (this.status != AccountStatus.ACTIVE || target.status != AccountStatus.ACTIVE) {
+        if (target.status != AccountStatus.ACTIVE) {
             return false;
         }
         
