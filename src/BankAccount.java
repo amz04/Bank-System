@@ -187,21 +187,20 @@ public class BankAccount {
         if (this.status != AccountStatus.ACTIVE || target.status != AccountStatus.ACTIVE) {
             return false;
         }
-
-        // Withdraw first; if successful, then deposit into target
-        boolean withdrawn = this.withdraw(amount);
-        if (!withdrawn) {
+        
+        // Pre Withdraw checking
+        if (amount <= 0) {
+            return false;
+        }
+        
+        if (amount > balance) {
             return false;
         }
 
-        boolean deposited = target.deposit(amount);
-        if (!deposited) {
-            // Rollback if deposit fails for some reason
-            this.balance += amount;
-            this.dailyWithdrawnAmount -= amount;
-            return false;
-        }
+        // Perform withdrawal
+        balance -= amount;
 
+        target.deposit(amount);
         return true;
     }
 
